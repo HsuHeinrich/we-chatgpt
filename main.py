@@ -37,8 +37,10 @@ def wechat_message():
             if msg.type == 'text':
                 reply = TextReply(content=msg.content, message=msg)
                 return reply.render()
+        except Exception:
+            return jsonify({'code':0,'msg':'执行异常'})
         finally:
-            return jsonify({'success':True,'msg':'测试中，请忽略'})
+            return jsonify({'code':100,'msg':'测试中，请忽略'})
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 80)))
