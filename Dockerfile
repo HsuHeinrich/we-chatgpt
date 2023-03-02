@@ -5,7 +5,7 @@ FROM tiangolo/uwsgi-nginx-flask:python3.8
 WORKDIR /app
 
 # 将当前目录下的所有文件复制到docker引擎中的工作目录
-COPY ./app /app
+COPY . /app
 
 
 # 安装依赖
