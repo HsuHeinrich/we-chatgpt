@@ -1,6 +1,8 @@
 import os
 
 from flask import Flask
+from wechatpy import parse_message
+from wechatpy.replies import TextReply
 
 app = Flask(__name__)
 
