@@ -12,9 +12,9 @@ def hello_world():
     return '欢迎来到HsuHeinrich的世界'
 
 # 测试消息
-@app.route('/test')
+@app.route('/test', methods=['POST'])
 def test():
-  return jsonify({success:True,msg:'测试中，请忽略'})
+  return jsonify({'success':True,'msg':'测试中，请忽略'})
 
 # 消息推送
 @app.route('/message/post', methods=['GET', 'POST'])
