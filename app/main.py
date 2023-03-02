@@ -1,6 +1,6 @@
-import os
-
-from flask import Flask
+from flask import Flask, request
+from wechatpy import parse_message
+from wechatpy.replies import TextReply
 
 app = Flask(__name__)
 def index():
