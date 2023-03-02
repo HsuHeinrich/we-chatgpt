@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from wechatpy import parse_message
 from wechatpy.replies import TextReply
 
@@ -11,6 +11,10 @@ app = Flask(__name__)
 def hello_world():
     return '欢迎来到HsuHeinrich的世界'
 
+# 测试消息
+@app.route('/test')
+def test():
+  return jsonify({success:True,msg:'测试中，请忽略'})
 
 # 消息推送
 @app.route('/message/post', methods=['GET', 'POST'])
