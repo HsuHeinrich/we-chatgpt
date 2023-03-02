@@ -3,11 +3,13 @@ from wechatpy import parse_message
 from wechatpy.replies import TextReply
 
 app = Flask(__name__)
+
+@app.route('/')
 def index():
-    return 'Hello World!'
+    return 'hello world！'
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/message/post', methods=['GET', 'POST'])
 def handle_wechat_message():
     signature = request.args.get('signature')
     timestamp = request.args.get('timestamp')
