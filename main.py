@@ -29,14 +29,16 @@ def wechat_message():
         return echostr
     
     if request.method == 'POST':
-        # 处理公众号消息
-        xml = request.stream.read().decode('utf-8')
-        msg = parse_message(xml)
-        
-        if msg.type == 'text':
-            reply = TextReply(content=msg.content, message=msg)
-            return reply.render()
-
+        try:
+            # 处理公众号消息
+            xml = request.stream.read().decode('utf-8')
+            msg = parse_message(xml)
+            
+            if msg.type == 'text':
+                reply = TextReply(content=msg.content, message=msg)
+                return reply.render()
+        finally:
+            return jsonify({'success':True,'msg':'测试中，请忽略'})
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 80)))
