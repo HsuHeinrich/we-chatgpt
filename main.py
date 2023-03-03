@@ -18,7 +18,7 @@ def test():
   return jsonify({'success':True,'msg':'测试中，请忽略'})
 
 # 消息推送
-@app.route('/message/post', methods='POST')
+@app.route('/message/post', methods=['POST'])
 def wechat_message():
     # 根据请求方式进行判断
     if request.method == 'POST':
