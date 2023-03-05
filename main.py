@@ -52,6 +52,7 @@ def wechat():
         print('测试是否try的问题')
         try:
             req = xmltodict.parse(xml)['xml'] # 云端调试空内容报错解决：no element found
+            print('try：',req)
         except:
             return 'no element', 200
 
