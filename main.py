@@ -63,7 +63,6 @@ def wechat():
                     'MsgType':'text',
                     'Content':chatbot.ask(req.get('Content'))
                 }
-                print('chat访问后：',req)
                 # 把构造的字典转换成xml格式
                 xml = xmltodict.unparse({'xml':resp})
                 return xml
