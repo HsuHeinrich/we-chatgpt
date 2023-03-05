@@ -51,7 +51,7 @@ def wechat():
         # 把xml格式的数据进行处理，转换成字典进行取值
         print('xml:',xml)
         try:
-            print('是否执行了？')
+            print('is ok')
             req = xmltodict.parse(xml)['xml'] # 云端调试空内容报错解决：no element found
             print('try：',req)
         except:
