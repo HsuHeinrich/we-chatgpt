@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response
+from flask import Flask, request, jsonify
 import hashlib
 import time
 import xmltodict
@@ -49,7 +49,7 @@ def wechat():
         try:
             req = xmltodict.parse(xml)['xml'] # 云端调试空内容报错解决：no element found
         except:
-            return
+            return 'no element', 200
 
         # 判断post过来的数据中数据类型是不是文本
         if 'text' == req.get('MsgType'):
