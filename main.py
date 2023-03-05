@@ -8,6 +8,7 @@ from chatbotv3 import Chatbot
 
 os.environ['GPT_ENGINE'] = 'gpt-3.5-turbo'
 api_key = os.environ.get('API_KEY')
+chatbot = Chatbot(api_key=api_key)
 
 
 app = Flask(__name__)
@@ -19,6 +20,8 @@ def index():
 
 @app.route('/wechat',methods=['GET','POST'])
 def wechat():
+    print(chatbot)
+
     if request.method == 'POST':
         print('测试api是否可用')
         chatbot.ask('你好')
@@ -93,5 +96,4 @@ def wechat():
 
 
 if __name__ == '__main__':
-    chatbot = Chatbot(api_key=api_key)
     app.run(host='0.0.0.0', port=80, debug=True)
