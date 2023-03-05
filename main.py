@@ -8,6 +8,7 @@ from chatbotv3 import Chatbot
 
 os.environ['GPT_ENGINE'] = 'gpt-3.5-turbo'
 api_key = os.environ.get('API_KEY')
+print(api_key)
 
 
 app = Flask(__name__)
@@ -55,6 +56,7 @@ def wechat():
         if 'text' == req.get('MsgType'):
             # 获取用户的信息，开始构造返回数据
             try:
+                print('chat访问前：',req)
                 resp = {
                     'ToUserName':req.get('FromUserName'),
                     'FromUserName':req.get('ToUserName'),
@@ -62,6 +64,7 @@ def wechat():
                     'MsgType':'text',
                     'Content':chatbot.ask(req.get('Content'))
                 }
+                print('chat访问后：',req)
                 # 把构造的字典转换成xml格式
                 xml = xmltodict.unparse({'xml':resp})
                 return xml
