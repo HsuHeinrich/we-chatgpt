@@ -19,9 +19,10 @@ def index():
 
 @app.route('/wechat',methods=['GET','POST'])
 def wechat():
-
-    print(api_key)
-
+    if request.method == 'POST':
+        print('测试api是否可用')
+        chatbot.ask('你好')
+        print('测试结果')
     # if request.method =='GET':
     #     # 设置token,开发者配置中心使用
     #     token = 'hsuheinrich003'
@@ -44,55 +45,51 @@ def wechat():
     #     else:
     #         return 'error', 403
 
-    # 根据请求方式进行判断
-    if request.method == 'POST':
-        # 获取微信服务器post过来的xml数据
-        xml = request.data
-        # 把xml格式的数据进行处理，转换成字典进行取值
-        print('xml:',xml)
-        try:
-            print('is ok')
-            req = xmltodict.parse(xml)['xml'] # 云端调试空内容报错解决：no element found
-            print('try：',req)
-        except:
-            return 'no element', 200
+    # # 根据请求方式进行判断
+    # if request.method == 'POST':
+    #     # 获取微信服务器post过来的xml数据
+    #     xml = request.data
+    #     try:
+    #         # 把xml格式的数据进行处理，转换成字典进行取值
+    #         req = xmltodict.parse(xml)['xml'] # 云端调试空内容报错解决：no element found
+    #     except:
+    #         return 'no element', 200
 
-        print('chat访问前：',req)
-        # 判断post过来的数据中数据类型是不是文本
-        if 'text' == req.get('MsgType'):
-            # 获取用户的信息，开始构造返回数据
-            try:
-                resp = {
-                    'ToUserName':req.get('FromUserName'),
-                    'FromUserName':req.get('ToUserName'),
-                    'CreateTime':int(time.time()),
-                    'MsgType':'text',
-                    'Content':chatbot.ask(req.get('Content'))
-                }
-                print('chat访问后：',req)
-                # 把构造的字典转换成xml格式
-                xml = xmltodict.unparse({'xml':resp})
-                return xml
-            except:
-                resp = {
-                    'ToUserName':req.get('FromUserName'),
-                    'FromUserName':req.get('ToUserName'),
-                    'CreateTime':int(time.time()),
-                    'MsgType':'text',
-                    'Content':'好像发生了点问题，请稍后再重新提问～'
-                }
-                xml = xmltodict.unparse({'xml':resp})
-                return xml
-        else:
-            resp = {
-                'ToUserName': req.get('FromUserName', ''),
-                'FromUserName': req.get('ToUserName', ''),
-                'CreateTime': int(time.time()),
-                'MsgType': 'text',
-                'Content': '目前仅支持文本消息～'
-            }
-            xml = xmltodict.unparse({'xml':resp})
-            return xml
+    #     # 判断post过来的数据中数据类型是不是文本
+    #     if 'text' == req.get('MsgType'):
+    #         # 获取用户的信息，开始构造返回数据
+    #         try:
+    #             resp = {
+    #                 'ToUserName':req.get('FromUserName'),
+    #                 'FromUserName':req.get('ToUserName'),
+    #                 'CreateTime':int(time.time()),
+    #                 'MsgType':'text',
+    #                 'Content':chatbot.ask(req.get('Content'))
+    #             }
+    #             print('chat访问后：',req)
+    #             # 把构造的字典转换成xml格式
+    #             xml = xmltodict.unparse({'xml':resp})
+    #             return xml
+    #         except:
+    #             resp = {
+    #                 'ToUserName':req.get('FromUserName'),
+    #                 'FromUserName':req.get('ToUserName'),
+    #                 'CreateTime':int(time.time()),
+    #                 'MsgType':'text',
+    #                 'Content':'好像发生了点问题，请稍后再重新提问～'
+    #             }
+    #             xml = xmltodict.unparse({'xml':resp})
+    #             return xml
+    #     else:
+    #         resp = {
+    #             'ToUserName': req.get('FromUserName', ''),
+    #             'FromUserName': req.get('ToUserName', ''),
+    #             'CreateTime': int(time.time()),
+    #             'MsgType': 'text',
+    #             'Content': '目前仅支持文本消息～'
+    #         }
+    #         xml = xmltodict.unparse({'xml':resp})
+    #         return xml
 
 
 if __name__ == '__main__':
