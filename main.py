@@ -8,7 +8,6 @@ from chatbotv3 import Chatbot
 
 os.environ['GPT_ENGINE'] = 'gpt-3.5-turbo'
 api_key = os.environ.get('API_KEY')
-print(api_key)
 
 
 app = Flask(__name__)
@@ -20,27 +19,30 @@ def index():
 
 @app.route('/wechat',methods=['GET','POST'])
 def wechat():
-    if request.method =='GET':
-        # 设置token,开发者配置中心使用
-        token = 'hsuheinrich003'
 
-        # 获取微信服务器发送过来的参数
-        data = request.args
-        signature = data.get('signature')
-        timestamp = data.get('timestamp')
-        nonce = data.get('nonce')
-        echostr = data.get('echostr')
+    print(api_key)
 
-        # 对参数进行字典排序，拼接字符串
-        temp = [timestamp, nonce, token]
-        temp.sort()
-        temp = ''.join(temp)
+    # if request.method =='GET':
+    #     # 设置token,开发者配置中心使用
+    #     token = 'hsuheinrich003'
 
-        # 加密
-        if (hashlib.sha1(temp.encode('utf8')).hexdigest() == signature):
-            return echostr
-        else:
-            return 'error', 403
+    #     # 获取微信服务器发送过来的参数
+    #     data = request.args
+    #     signature = data.get('signature')
+    #     timestamp = data.get('timestamp')
+    #     nonce = data.get('nonce')
+    #     echostr = data.get('echostr')
+
+    #     # 对参数进行字典排序，拼接字符串
+    #     temp = [timestamp, nonce, token]
+    #     temp.sort()
+    #     temp = ''.join(temp)
+
+    #     # 加密
+    #     if (hashlib.sha1(temp.encode('utf8')).hexdigest() == signature):
+    #         return echostr
+    #     else:
+    #         return 'error', 403
 
     # 根据请求方式进行判断
     if request.method == 'POST':
@@ -52,11 +54,11 @@ def wechat():
         except:
             return 'no element', 200
 
+        print('chat访问前：',req)
         # 判断post过来的数据中数据类型是不是文本
         if 'text' == req.get('MsgType'):
             # 获取用户的信息，开始构造返回数据
             try:
-                print('chat访问前：',req)
                 resp = {
                     'ToUserName':req.get('FromUserName'),
                     'FromUserName':req.get('ToUserName'),
