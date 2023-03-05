@@ -58,6 +58,9 @@ def wechat():
                     'MsgType':'text',
                     'Content':chatbot.ask(req.get('Content'))
                 }
+                # 把构造的字典转换成xml格式
+                xml = xmltodict.unparse({'xml':resp})
+                return xml
             except:
                 resp = {
                     'ToUserName':req.get('FromUserName'),
@@ -66,12 +69,10 @@ def wechat():
                     'MsgType':'text',
                     'Content':'好像发生了点问题，请稍后再重新提问～'
                 }
-            
-            # 把构造的字典转换成xml格式
-            xml = xmltodict.unparse({'xml':resp})
-            # print(req.get('Content'))
-            # 返回数据
-            return xml
+                xml = xmltodict.unparse({'xml':resp})
+                return xml
+            finally:
+                return
         else:
             resp = {
                 'ToUserName': req.get('FromUserName', ''),
