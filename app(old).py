@@ -3,11 +3,6 @@ import hashlib
 import time
 import xmltodict
 import openai
-import os
-from chatbotv3 import Chatbot
-
-os.environ['GPT_ENGINE'] = 'gpt-3.5-turbo'
-api_key = os.environ.get('API_KEY')
 
 
 app = Flask(__name__)
@@ -56,7 +51,7 @@ def wechat():
                     'FromUserName':req.get('ToUserName'),
                     'CreateTime':int(time.time()),
                     'MsgType':'text',
-                    'Content':chatbot.ask(req.get('Content'))
+                    'Content':chat_reply(req.get('Content'))
                 }
             except:
                 resp = {
@@ -66,7 +61,6 @@ def wechat():
                     'MsgType':'text',
                     'Content':'好像发生了点问题，请稍后再重新提问～'
                 }
-            
             # 把构造的字典转换成xml格式
             xml = xmltodict.unparse({'xml':resp})
             # print(req.get('Content'))
@@ -78,12 +72,24 @@ def wechat():
                 'FromUserName': req.get('ToUserName', ''),
                 'CreateTime': int(time.time()),
                 'MsgType': 'text',
-                'Content': '目前仅支持文本消息～'
+                'Content': '仅支持文本消息～'
             }
             xml = xmltodict.unparse({'xml':resp})
             return xml
 
+def chat_reply(content):
+    openai.api_key = 'sk-qdu******7kCA'
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-0301", # 最新模型
+        messages=[{"role": "user", "content": content}],
+        temperature=0.5,
+        max_tokens=1024,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
+    return response.choices[0].message.content
+
 
 if __name__ == '__main__':
-    chatbot = Chatbot(api_key=api_key)
     app.run(host='0.0.0.0', port=80, debug=True)
