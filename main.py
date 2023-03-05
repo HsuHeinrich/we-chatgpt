@@ -17,7 +17,7 @@ def index():
     return 'hello world！'
 
 
-@app.route('/',methods=['GET','POST'])
+@app.route('/wechat',methods=['GET','POST'])
 def wechat():
     if request.method =='GET':
         # 设置token,开发者配置中心使用
